@@ -1,0 +1,152 @@
+.cell{
+    background-color:rgb(201, 189, 189);
+    width: 1.5em;
+    height: 1.5em;
+    box-shadow:2px -1px 2px;
+    border-style:inset;
+    text-align: center;
+    user-select: none;
+}
+.easy{
+    font-size: large;
+    background-color:rgb(112, 187, 112);
+    width: 20%;
+    height: 10%;
+    text-align: center;
+    border-style:solid;
+    border-color: rgb(75, 201, 85);
+    user-select: none;
+    cursor: pointer;
+    
+}
+.normal{
+    font-size: large;
+    background-color:rgb(131, 131, 218);
+    width: 20%;
+    height: 10%;
+    text-align: center;
+    border-style:solid;
+    border-color: rgb(78, 78, 231);
+    user-select: none;
+    cursor: pointer;
+
+
+}
+.difficult{
+    font-size: large;
+    background-color: rgb(240, 111, 111);
+    width: 20%;
+    height: 10%;
+    text-align: center;
+    border-style:solid;
+    border-color: rgb(212, 54, 54);
+    user-select: none;
+    cursor: pointer;
+
+}
+
+.title{
+    font-size: xx-large;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-left:10%;
+    margin-right:10%;
+    background-color: #ccc;
+    user-select: none;
+
+}
+body{
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    
+}
+
+.game-pane{
+    border-style:double;
+    border-width:1px;
+    border-color:rgb(199, 198, 198);
+    box-shadow: 2px 3px 13px;
+    margin:auto;
+}
+
+.clear{
+    border-style: solid;
+    border-color:rgb(172, 149, 149);
+    background-color:rgb(199, 198, 198);
+    box-shadow:inset 0px 0px 0px 0px;
+    
+}
+
+.cell.landmine{
+    background-color: orange;
+
+}
+.cell.landmine.exploded{
+    background-color: red;
+
+}
+
+.cell.landmine.success{
+    background-color: greenyellow;
+}
+
+
+
+.title.add{
+    cursor: pointer;
+    border-style:solid;
+    border-color: rgb(117, 113, 113);
+}
+
+.cell.one{
+    color:rgb(51, 51, 223);
+    font-weight: bold;
+}
+.cell.two{
+    color: rgb(56, 202, 80);
+    font-weight: bold;
+}
+.cell.three{
+    color: rgb(226, 21, 21);
+    font-weight: bold;
+}
+.cell.four{
+    color:rgb(3, 6, 192);
+    font-weight: bold;
+}
+.cell.five{
+    color:rgb(109, 12, 12);
+    font-weight: bold;
+}
+.cell.six{
+    color:tomato;
+    font-weight: bold;
+}
+.cell.seven{
+    color:rgb(150, 5, 5);
+    font-weight: bold;
+}
+.cell.eight{
+    color:rgb(48, 21, 21);
+    font-weight: bold;
+}
+.cell.flag{
+    background-color: yellow;
+}
+
+.Tips{
+    background-color: rgb(172, 172, 172);
+    border-style: solid ;
+    border-color: rgb(117, 113, 113);
+    color:rgb(57, 57, 95);
+    text-align: center;
+}
+
+/* .look{
+    user-select: none;
+    background-color: rgb(78, 91, 92);
+} */
