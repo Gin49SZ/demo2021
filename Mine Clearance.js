@@ -98,7 +98,7 @@ function renderBoard(numRows,numCols,grid){
                     
             })
 //双击已被展开的数字会展开附近没有被插旗的块
-            cellEl.addEventListener("click",(e)=>{
+            cellEl.addEventListener("dblclick",(e)=>{
                 if (grid[i][j].clear == true){
                     for (let [drow,dcol] of directions ){
                         let cellRow = i + drow;
@@ -373,4 +373,85 @@ titleEl.addEventListener("click",()=>{
 
 let over = {
     over:false
+}
+
+
+//画炸弹和旗子的图案
+function picture(Rows,Cols){
+    let table = new Array(Rows);
+    for (let i = 0; i < Rows; i++){
+        table[i] = new Array(Cols);
+        for(let j = 0; j < Cols; j++){
+            table[i][j] = {
+                clear:false
+            };
+        }
+
+        
+    }
+    return table;
+}
+let bombtable = picture(7,8);
+let bomb = document.querySelector("#bomb");
+for (let i = 0;i < 7;i++){
+    let bombTr = document.createElement("tr")
+    for (let j =0;j < 8;j++){
+        let bombEl = document.createElement("div");
+        bombEl.className = "bomb_block";
+        bombtable[i][j].cellEl = bombEl;
+        let bombTd = document.createElement("td");
+        bombTd.append(bombEl);
+        bombTr.append(bombTd);
+    }
+    bomb.append(bombTr);
+}
+for (let i of [1,2]){
+    bombtable[1][i].cellEl.classList.add("frist");
+    bombtable[2][i].cellEl.classList.add("frist");
+}
+for (let i of [5,6]){
+    bombtable[1][i].cellEl.classList.add("frist");
+    bombtable[2][i].cellEl.classList.add("frist");
+}
+for (i of [3,4]){
+    bombtable[3][i].cellEl.classList.add("frist");
+}
+for (i of [2,3,4,5]){
+    bombtable[4][i].cellEl.classList.add("frist");
+}
+for (i of [2,5]){
+    bombtable[5][i].cellEl.classList.add("frist");
+}
+
+
+let flagtable = picture(7,8);
+let f = document.querySelector("#flag");
+for (let i = 0;i < 7;i++){
+    let fTr = document.createElement("tr")
+    for (let j =0;j < 8;j++){
+        let fEl = document.createElement("div");
+        fEl.className = "flag_block";
+        flagtable[i][j].cellEl = fEl;
+        let fTd = document.createElement("td");
+        fTd.append(fEl);
+        fTr.append(fTd);
+    }
+    flag.append(fTr);
+}
+for  (let i = 0;i < 8;i++){
+    flagtable[6][i].cellEl.classList.add("first");
+}
+for (let i = 0;i < 7;i++){
+    flagtable[i][3].cellEl.classList.add("first");
+}
+flagtable[0][4].cellEl.classList.add("second");
+
+for (i of [4,5]){
+    flagtable[1][i].cellEl.classList.add("second");
+}
+for (i of [4,5,6]){
+    flagtable[2][i].cellEl.classList.add("second");
+}
+for (i of [4,5,6,7]){
+    flagtable[3][i].cellEl.classList.add("second");
 }

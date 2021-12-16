@@ -136,6 +136,13 @@ body{
 }
 .cell.flag{
     background-color: yellow;
+    border-color: yellow;
+    width: 1.5em;
+    height: 1.5em;
+    box-shadow:2px -1px 2px;
+    border-style:inset;
+    text-align: center;
+    user-select: none;
 }
 
 .Tips{
@@ -150,3 +157,42 @@ body{
     user-select: none;
     background-color: rgb(78, 91, 92);
 } */
+
+.Bomb{
+    margin:auto;
+}
+
+.Flag{
+    margin:auto;
+}
+
+
+.bomb_block{
+    background-color:rgb(63, 224, 22);
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.bomb_block.frist{
+    background-color:rgba(59, 56, 56, 0.993);
+}
+
+.flag_block{
+    background-color:rgb(149, 177, 13);
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.flag_block.first{
+    background-color: black;
+}
+.flag_block.second{
+    background-color: red;
+}
