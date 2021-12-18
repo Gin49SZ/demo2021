@@ -49,31 +49,35 @@ function renderBoard(numRows,numCols,grid){
             grid[i][j].cellEl = cellEl;
 
             cellEl.addEventListener("click",(e)=> {
-
+                if(gameover.js === false){
+                    if (grid[i][j].count === -1){                  
+                        exploded(grid,i,j,numRows,numCols);
+                        gameover.js = true;
+                        alert("You lost");
+                        return;
+                        
+    
+                    }else if (grid[i][j].count === 0){
+                        searchClearArea(grid,i,j,numRows,numCols);
+    
+                    }else if (grid[i][j].count > 0){
+                        grid[i][j].clear = true;
+                        cellEl.classList.add("clear");
+                        grid[i][j].cellEl.innerText = grid[i][j].count;
+                        changecolor(grid,i,j);
+                        
+                        
+                    }
+                    checkAllClear(grid);
+    
+                    if (checkAllClear(grid) == true){
+                        gameover.js = true;
+                        alert("You win");
+                    }
+                }
 
                 
-                if (grid[i][j].count === -1){                  
-                    exploded(grid,i,j,numRows,numCols);
-                    alert("You lost");
-                    return;
-                    
 
-                }else if (grid[i][j].count === 0){
-                    searchClearArea(grid,i,j,numRows,numCols);
-
-                }else if (grid[i][j].count > 0){
-                    grid[i][j].clear = true;
-                    cellEl.classList.add("clear");
-                    grid[i][j].cellEl.innerText = grid[i][j].count;
-                    changecolor(grid,i,j);
-                    
-                    
-                }
-                checkAllClear(grid);
-
-                if (checkAllClear(grid) == true){
-                    alert("You win");
-                }
                  
             });
 //插旗
@@ -82,43 +86,50 @@ function renderBoard(numRows,numCols,grid){
                     grid[i][j].cellEl.classList.add("flag");
                     sl.syls -= 1;
                     grid[i][j].flag = true;
-                }else if(e.button == 2){
+                }else if(e.button == 2 && grid[i][j].clear == false){
                     grid[i][j].cellEl.classList.remove("flag");
                     grid[i][j].flag = false;
                     sl.syls += 1;
                 }
-                clock(sl.syls);    
+                if (joke.joke == 0){
+                    clock(sl.syls);                        
+                }
+
             })
 //双击已被展开的数字会展开附近没有被插旗的块
             cellEl.addEventListener("dblclick",(e)=>{
-                if (grid[i][j].clear == true){
-                    for (let [drow,dcol] of directions ){
-                        let cellRow = i + drow;
-                        let cellCol = j + dcol;
-                        if (cellRow < 0 || cellRow >= numRows || cellCol < 0 || cellCol >= numCols){
-                            continue;
+                if (gameover.js === false){
+                    if (grid[i][j].clear == true){
+                        for (let [drow,dcol] of directions ){
+                            let cellRow = i + drow;
+                            let cellCol = j + dcol;
+                            if (cellRow < 0 || cellRow >= numRows || cellCol < 0 || cellCol >= numCols){
+                                continue;
+                            }
+                            if (grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count !=-1 && grid[cellRow][cellCol].count != 0){
+                                grid[cellRow][cellCol].clear = true;
+                                grid[cellRow][cellCol].cellEl.classList.add("clear")
+                                grid[cellRow][cellCol].cellEl.innerText = grid[cellRow][cellCol].count;
+                                changecolor(grid,cellRow,cellCol);
+                            }else if(grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count == 0){
+                                searchClearArea(grid,cellRow,cellCol,numRows,numCols);
+                            }else if(grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count == -1){
+                                over.over = true;
+                                exploded(grid,cellRow,cellCol,numRows,numCols)
+                                gameover.js = true;
+                                alert("You lost");
+                                return;
+                            }
+    
                         }
-                        if (grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count !=-1 && grid[cellRow][cellCol].count != 0){
-                            grid[cellRow][cellCol].clear = true;
-                            grid[cellRow][cellCol].cellEl.classList.add("clear")
-                            grid[cellRow][cellCol].cellEl.innerText = grid[cellRow][cellCol].count;
-                            changecolor(grid,cellRow,cellCol);
-                        }else if(grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count == 0){
-                            searchClearArea(grid,cellRow,cellCol,numRows,numCols);
-                        }else if(grid[cellRow][cellCol].flag == false && grid[cellRow][cellCol].count == -1){
-                            over.over = true;
-                            exploded(grid,cellRow,cellCol,numRows,numCols)
-                            alert("You lost");
-                            return;
+                        checkAllClear(grid)
+                        if (checkAllClear(grid) == true && over.over == false){
+                            gameover.js = true;
+                            alert("You win");       
                         }
-
-                    }
-                    checkAllClear(grid)
-                    if (checkAllClear(grid) == true && over.over == false){
-                        alert("You win");       
-                    }
-
-                }     
+    
+                    } 
+                }
             })
 
             let tdEl = document.createElement("td");
@@ -260,18 +271,22 @@ let El1 = document.createElement("td");
 El1.className = "easy";
 El1.innerText = "Easy"
 El1.addEventListener("click",()=> {
-
     if (count.num === 0) {
+        document.getElementById("board").innerHTML=""
         let grid = initialize(9,9,10);
         renderBoard(9,9,grid);
         count.num+=1;
         sl.syls = 10;
+        help(9,9,grid)
     }else{
+        gameover.js = false;
         document.getElementById("board").innerHTML=""
         let grid = initialize(9,9,10);
         renderBoard(9,9,grid);
         sl.syls = 10;
         clock(sl.syls)
+        help(9,9,grid)
+        joke.joke = 0
     }
     titleEl.innerHTML = "Reload";
     titleEl.classList.add("add");
@@ -284,16 +299,21 @@ El2.innerText = "Normal"
 El2.addEventListener("click",()=> {
 
     if (count.num === 0) {
-        let grid = initialize(16,16,40);
-        renderBoard(16,16,grid);
+        document.getElementById("board").innerHTML=""
+        let grid = initialize(15,15,40);
+        renderBoard(15,15,grid);
         count.num+=1;
         sl.syls = 40;
+        help(15,15,grid)
     }else{
+        gameover.js = false;
         document.getElementById("board").innerHTML=""
-        let grid = initialize(16,16,40);
-        renderBoard(16,16,grid);
+        let grid = initialize(15,15,40);
+        renderBoard(15,15,grid);
         sl.syls = 40;
-        clock(sl.syls)
+        clock(sl.syls);
+        help(15,15,grid);
+        joke.joke = 0;
     }
     titleEl.innerHTML = "Reload";  
     titleEl.classList.add("add");
@@ -306,16 +326,21 @@ El3.className = "difficult";
 El3.innerText = "Difficult"
 El3.addEventListener("click",()=> {
     if (count.num === 0) {
-        sl.syls = 99;
-        let grid = initialize(16,30,99);
-        renderBoard(16,30,grid); 
-        count.num+=1;
-    }else{
         document.getElementById("board").innerHTML=""
-        let grid = initialize(16,30,99);
-        renderBoard(16,30,grid);
         sl.syls = 99;
-        clock(sl.syls)
+        let grid = initialize(15,29,99);
+        renderBoard(15,29,grid); 
+        count.num+=1;
+        help(15,29,grid);
+    }else{
+        gameover.js = false;
+        document.getElementById("board").innerHTML=""
+        let grid = initialize(15,29,99);
+        renderBoard(15,29,grid);
+        sl.syls = 99;
+        clock(sl.syls);
+        help(15,29,grid);
+        joke.joke = 0;
     }
     titleEl.innerHTML = "Reload"; 
     titleEl.classList.add("add") ;  
@@ -362,6 +387,21 @@ function clock(sysl){
 //     }
 
 // }
+
+//随机点击第一个非零的格子
+function help(numRows,numCols,grid){
+    let cellnum = Math.trunc(Math.random()*numRows*numCols);
+    let row = Math.trunc(cellnum / numCols);
+    let col = cellnum % numCols;
+    while (grid[row][col].count != 0){
+        cellnum = Math.trunc(Math.random()*numRows*numCols);
+        row = Math.trunc(cellnum / numCols);
+        col = cellnum % numCols;
+    };
+    console.log(row,col);
+    searchClearArea(grid,row,col,numRows,numCols);
+
+}
 
 
 
@@ -449,3 +489,51 @@ for (i of [0,1,2,3]){
     flagtable[3][i].cellEl.classList.add("second");
 }
 
+
+//无聊的彩蛋。。。。。
+joke = {
+    joke:0
+}
+let button = document.getElementById("button");
+button.addEventListener("click",()=>{
+    joke.joke += 1;
+    
+    if (joke.joke === 3 ){
+        ask(
+            "Are you serious?",
+            ()=>{
+                button.classList.add("cheating");
+            },
+            ()=>{
+                alert("OK, Fine.....")
+                joke.joke = 0
+            }
+        );
+    }else if(joke.joke < 2){
+        alert("Don't touch it!!!");
+    }else if(joke.joke < 3){
+        alert("Don't touch it!!!!!!!!!!");
+    }else{
+        document.getElementById("board").innerHTML=""
+        alert("Enjoy yourself")
+        let grid = initialize(15,29,479);
+        renderBoard(15,29,grid); 
+        let surplus_landmine = document.createElement("div");
+        surplus_landmine.innerHTML = "剩余雷数:???" 
+        tips.innerHTML = ""
+        tips.append(surplus_landmine);
+         count.num = 1;
+
+
+    }
+})
+function ask(question,yes,no){
+    
+    if(confirm(question))yes();
+    else no();
+}
+
+//结束游戏后禁止函数
+let gameover = {
+    js:false
+}

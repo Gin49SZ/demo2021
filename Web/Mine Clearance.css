@@ -196,4 +196,18 @@ body{
 .flag_block.second{
     background-color: red;
 }
+.button{
+    width: 1.5%;
+    height: 3%;text-align: center;
+    background-color: rgb(24, 126, 24); 
+    border-radius: 70%;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top:2px
+}
+
+.cheating{
+    background-color: red;
+}
 
